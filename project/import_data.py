@@ -23,24 +23,29 @@ except:
     except:
         #handling the exceptation
         print("please connect to internet and try again later")
+else:
+    #this is not in a format of analysis
+    #i.e the columns are not variable and rows are not observation
+    #so it will make analysis friendly dataframe
+    df=pd.melt(df,id_vars='Life expectancy',var_name='year',value_name='expectancy')
+    df=pd.pivot_table(df,index='year',columns='Life expectancy',values='expectancy',aggfunc=np.mean)
+    #due to insufficient data present in the country we have to delete
+    #those country from the actual data for better analysis and
+    #drawing graph
+    df=df.dropna(axis=1)
+    #preparing the data to send to the mysql-database
+    df.index.name=None
+    df.columns.name=None
+    df.index=[x for x in range(1800,2017)]
+    df.index.name='year'
+    #creating the connection for mysql database to send the data at once
+    engine = sqlalchemy.create_engine('mysql+mysqlconnector://root:taj@0810@localhost:3306/taj')
+    try:
+        #send the data to mysql if the table is presect replace it
+        df.to_sql('life',engine,if_exists='replace')
+    except:
+        #if the server is not on the following message will be send
+        print("please make the server on with host='localhost',user_name='taj',port_number='3306' and password='taj@0810'")
     else:
-        '''this is not in a format of analysis
-        i.e the columns are not variable and rows are not observation
-        so it will make analysis friendly dataframe'''
-        df=pd.melt(df,id_vars='Life expectancy',var_name='year',value_name='expectancy')
-        df=pd.pivot_table(df,index='year',columns='Life expectancy',values='expectancy',aggfunc=np.mean)
-        '''due to insufficient data present in the country we have to delete
-        those country from the actual data for better analysis and
-        drawing graph'''
-        df=df.dropna(axis=1)
-        df.index.name=None
-        df.columns.name=None
-        df.index=[x for x in range(1800,2017)]
-        df.index.name='year'
-        engine = sqlalchemy.create_engine('mysql+mysqlconnector://root:taj@0810@localhost:3306/taj')
-        try:
-            df.to_sql('life',engine,if_exists='replace')
-        except:
-            print("please make the server on with host='localhost',user_name='taj',port_number='3306' and password='taj@0810'")
-        else:
-            print("Data has enter to mysql database-you are now ready to rock")
+        # if every things goes will the following will be printed
+        print("Data has enter to mysql database-you are now ready to rock")
