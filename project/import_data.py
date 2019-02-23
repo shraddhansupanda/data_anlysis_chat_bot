@@ -19,8 +19,7 @@ def data_cleaning_and_storing(df):
     #those country from the actual data for better analysis and
     #drawing graph
     df=df.dropna(axis=1)
-    #There are some columns where two country data are present so have to drop thoseself.
-        
+    #There are some columns where two country data are present so have to drop thoseself
     #preparing the data to send to the mysql-database
     df.index.name=None
     df.columns.name=None

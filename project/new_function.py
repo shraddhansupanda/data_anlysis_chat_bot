@@ -14,18 +14,18 @@ def country_name():
     df=pd.read_sql('select * from life where year=0',connection)
     df=df.iloc[:,1:]
     return df
-def box_plot(country):
+def box_plot(country,year=1800,year1=2016):
     connection=connect()
-    df=pd.read_sql('select {} from life'.format(country),connection)
+    df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
     plt.boxplot(df['{}'.format(country)])
     plt.grid()
     plt.ylabel('year')
     plt.title('boxplot of {}'.format(country))
     plt.show()
-def scatter_plot(country):
+def scatter_plot(country,year=1800,year1=2016):
     connection=connect()
-    df=pd.read_sql('select {} from life'.format(country),connection)
-    df.index=[x for x in np.arange(1800,2017)]
+    df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
+    df.index=[x for x in np.arange(year,year1+1)]
     #plt.style.use('ggplot')
     plt.plot(df.index,df['{}'.format(country)])
     plt.grid()
@@ -33,38 +33,37 @@ def scatter_plot(country):
     plt.ylabel('life_expectancy')
     plt.title('Scatter plot of {}'.format(country))
     plt.show()
-def histogram(country):
+def histogram(country,year=1800,year1=2016,bins=20):
     connection=connect()
-    df=pd.read_sql('select {} from life'.format(country),connection)
-    plt.hist(df['{}'.format(country)],bins=20)
+    df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
+    plt.hist(df['{}'.format(country)],bins)
     plt.title('Histogram of {}'.format(country))
     plt.grid()
     plt.show()
-def graphical_EDA(country):
-    box_plot(country)
-    scatter_plot(country)
-    histogram(country)
-def avg(country):
+def graphical_EDA(country,year=1800,year1=2016):
+    box_plot(country,year,year1)
+    scatter_plot(country,year,year1)
+    histogram(country,year,year1)
+def avg(country,year=1800,year1=2016):
     connection=connect()
-    df=pd.read_sql('select AVG({}) from life'.format(country),connection)
+    df=pd.read_sql('select AVG({}) from life where year between {} AND {}'.format(country,year,year1),connection)
     print('{} is the Average of {}'.format(float(df.values),country))
-def variance(country):
+def variance(country,year=1800,year1=2016):
     connection=connect()
-    df=pd.read_sql('select VARIANCE({}) from life'.format(country),connection)
+    df=pd.read_sql('select VARIANCE({}) from life where year between {} AND {}'.format(country,year,year1),connection)
     print('{} is the variance of {}'.format(float(df.values),country))
-def standard_deviation(country):
+def standard_deviation(country,year=1800,year1=2016):
     connection=connect()
-    df=pd.read_sql('select STDDEV({}) from life'.format(country),connection)
+    df=pd.read_sql('select STDDEV({}) from life where year between {} AND {}'.format(country,year,year1),connection)
     print('{} is the Standard deviation of {}'.format(float(df.values),country))
-def statistical_EDA(country):
-    avg(country)
-    variance(country)
-    standard_deviation(country)
-def what_is(year,country):
+def statistical_EDA(country,year=1800,year1=2016):
+    avg(country,year,year1)
+    variance(country,year,year1)
+    standard_deviation(country,year,year1)
+def what_is(country,year):
     connection=connect()
     df=pd.read_sql('select {} from life where year = {}'.format(country,year),connection)
     print('{} is the life_expectancy'.format(float(df.values)))
-    #def predict(country_name):
 def country_highest_life_expectancy(year):
     connection=connect()
     df=pd.read_sql('select * from life where year={}'.format(year),connection)
@@ -85,4 +84,4 @@ def predict(country_name,year):
     reg=LinearRegression()
     reg.fit(x,y)
     k=float(reg.predict(year))
-    print('{} is the life_expectancy for {} on {}'.format(k,country_name,str(year)))
+    print('{} is the life expectancy for {} on {}'.format(k,country_name,str(year)))
