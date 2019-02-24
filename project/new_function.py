@@ -15,14 +15,101 @@ def country_name():
     df=df.iloc[:,1:]
     return df
 def box_plot(country,year=1800,year1=2016):
+    if len(country)==1:
+        country=country[0]
+        connection=connect()
+        df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
+        plt.boxplot(df['{}'.format(country)])
+        plt.grid()
+        plt.xlabel(country)
+        plt.ylabel('year')
+        plt.title('boxplot of {}'.format(country))
+        plt.show()
+    if len(country)==2:
+        country1=country[0]
+        country2=country[1]
+        connection=connect()
+        df=pd.read_sql('select {} from life where year between {} AND {}'.format(country1,year,year1),connection)
+        grid=plt.GridSpec(1,2)
+        plt.subplot(grid[0,0])
+        plt.boxplot(df['{}'.format(country1)])
+        plt.grid()
+        plt.xlabel(country1)
+        plt.ylabel('year')
+        plt.title('boxplot of {}'.format(country1))
+        plt.subplot(grid[0,1])
+        df=pd.read_sql('select {} from life where year between {} AND {}'.format(country2,year,year1),connection)
+        plt.boxplot(df['{}'.format(country2)])
+        plt.grid()
+        plt.xlabel(country2)
+        plt.ylabel('year')
+        plt.title('boxplot of {}'.format(country2))
+        plt.tight_layout()
+        plt.show()
+def scatter_plot(country,year=1800,year1=2016):
+    if len(country)==1:
+        country=country[0]
+        connection=connect()
+        df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
+        df.index=[x for x in np.arange(year,year1+1)]
+        #plt.style.use('ggplot')
+        plt.plot(df.index,df['{}'.format(country)])
+        plt.grid()
+        plt.xlabel('year')
+        plt.ylabel('life_expectancy')
+        plt.title('Scatter plot of {}'.format(country))
+        plt.show()
+    if len(country)==2:
+        connection=connect()
+        country1=country[0]
+        country2=country[1]
+        df=pd.read_sql('select {} from life where year between {} AND {}'.format(country1,year,year1),connection)
+        df.index=[x for x in np.arange(year,year1+1)]
+        #plt.style.use('ggplot')
+        grid=plt.GridSpec(2,1)
+        plt.subplot(grid[0,0])
+        plt.plot(df.index,df['{}'.format(country1)])
+        plt.grid()
+        plt.xlabel('year')
+        plt.ylabel('life_expectancy')
+        plt.title('Scatter plot of {}'.format(country1))
+        df=pd.read_sql('select {} from life where year between {} AND {}'.format(country2,year,year1),connection)
+        df.index=[x for x in np.arange(year,year1+1)]
+        #plt.style.use('ggplot')
+        plt.subplot(grid[1,0])
+        plt.plot(df.index,df['{}'.format(country2)])
+        plt.grid()
+        plt.xlabel('year')
+        plt.ylabel('life_expectancy')
+        plt.title('Scatter plot of {}'.format(country2))
+        plt.tight_layout()
+        plt.show()
+def histogram(country,year=1800,year1=2016,bins=20):
+    connection=connect()
+    df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
+    plt.hist(df['{}'.format(country)],bins)
+    plt.title('Histogram of {}'.format(country))
+    plt.xlabel('Life expectancy')
+    plt.grid()
+    plt.show()
+def graphical_EDA(country,year=1800,year1=2016):
+    grid=plt.GridSpec(2,2)
+    plt.subplot(grid[0,0])
     connection=connect()
     df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
     plt.boxplot(df['{}'.format(country)])
     plt.grid()
+    plt.xlabel(country)
     plt.ylabel('year')
     plt.title('boxplot of {}'.format(country))
-    plt.show()
-def scatter_plot(country,year=1800,year1=2016):
+    plt.subplot(grid[0,1])
+    connection=connect()
+    df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
+    plt.hist(df['{}'.format(country)],bins=20)
+    plt.title('Histogram of {}'.format(country))
+    plt.xlabel('Life expectancy')
+    plt.grid()
+    plt.subplot(grid[1,0:])
     connection=connect()
     df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
     df.index=[x for x in np.arange(year,year1+1)]
@@ -32,18 +119,8 @@ def scatter_plot(country,year=1800,year1=2016):
     plt.xlabel('year')
     plt.ylabel('life_expectancy')
     plt.title('Scatter plot of {}'.format(country))
+    plt.tight_layout()
     plt.show()
-def histogram(country,year=1800,year1=2016,bins=20):
-    connection=connect()
-    df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connection)
-    plt.hist(df['{}'.format(country)],bins)
-    plt.title('Histogram of {}'.format(country))
-    plt.grid()
-    plt.show()
-def graphical_EDA(country,year=1800,year1=2016):
-    box_plot(country,year,year1)
-    scatter_plot(country,year,year1)
-    histogram(country,year,year1)
 def avg(country,year=1800,year1=2016):
     connection=connect()
     df=pd.read_sql('select AVG({}) from life where year between {} AND {}'.format(country,year,year1),connection)
