@@ -25,6 +25,9 @@ def data_cleaning_and_storing(df):
     df.columns.name=None
     df.index=[x for x in range(1800,2017)]
     df.index.name='year'
+    #repairing the country name.
+    df.columns=df.columns.str.replace('\W','_')
+    df.columns=df.columns.str.replace('__','_')
     #creating the connection for mysql database to send the data at once
     engine = sqlalchemy.create_engine('mysql+mysqlconnector://root:taj@0810@localhost:3306/taj')
     try:
@@ -32,7 +35,7 @@ def data_cleaning_and_storing(df):
         df.to_sql('life',engine,if_exists='replace')
     except:
         #if the server is not on the following message will be send
-        print("please make the server on with host='localhost',user_name='taj',port_number='3306' and password='taj@0810'")
+        print("please make the server on with host='localhost',user_name='taj',port_number='3306' and password='taj@0810' and a scehma with name taj")
     else:
         # if every things goes will the following will be printed
         print("Data has enter to mysql database-you are now ready to rock")

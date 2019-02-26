@@ -13,6 +13,7 @@ def country_name():
     connection=connect()
     df=pd.read_sql('select * from life where year=0',connection)
     df=df.iloc[:,1:]
+    df=list(df)
     return df
 def box_plot(country,year=1800,year1=2016):
     if len(country)==1:
@@ -140,25 +141,51 @@ def statistical_EDA(country,year=1800,year1=2016):
 def what_is(country,year):
     connection=connect()
     df=pd.read_sql('select {} from life where year = {}'.format(country,year),connection)
-    print('{} is the life_expectancy'.format(float(df.values)))
+    print('{} is the life_expectancy of {} on {}'.format(float(df.values),country,year))
 def country_highest_life_expectancy(year):
     connection=connect()
     df=pd.read_sql('select * from life where year={}'.format(year),connection)
     df=df.iloc[0,1:][df.iloc[0,1:]==df.iloc[0,1:].max()]
-    print('{} has highest Life_expectancey of {}'.format(df.index[0],df[0]))
+    for i in range(len(df)):
+        print('{} has highest Life_expectancey of {} on {}'.format(df.index[i],df[i],year))
+def country_lowest_life_expectancy(year):
+    connection=connect()
+    df=pd.read_sql('select * from life where year={}'.format(year),connection)
+    df=df.iloc[0,1:][df.iloc[0,1:]==df.iloc[0,1:].min()]
+    for i in range(len(df)):
+        print('{} has lowest Life_expectancey of {} on {}'.format(df.index[i],df[i],year))
 def highest_life_expectancy():
     connection=connect()
     df=pd.read_sql('select * from life',con=connection)
     df1=df.iloc[:,1:]
     df2=df1.max()
     df3=df2[df2==df2.max()]
-    print('{} has higest life expectancy of {}'.format(df3.index[0],df3[0]))
-def predict(country_name,year):
+    for i in range(len(df3)):
+        print('{} has highest life expectancy of {}'.format(df3.index[i],df3[i]))
+def lowest_life_expectancy():
     connection=connect()
-    df=pd.read_sql('select year,{} from life where year between 1971 and 2016'.format(country_name),connection)
+    df=pd.read_sql('select * from life',con=connection)
+    df.index=df.iloc[:,0]
+    df1=df.iloc[:,1:]
+    df2=df1.min()
+    df3=df2[df2==df2.min()]
+    for i in range(len(df3)):
+        year=int(df1[df1[df3.index[i]]==df3[i]].index.values)
+        print('{} has lowest life expectancy of {} on {}'.format(df3.index[i],df3[i],year))
+def highest_life_expectancy_of_country(country):
+    connection=connect()
+    df=pd.read_sql('select year,{} from life where {}=(select max({}) from life)'.format(country,country,country),connection)
+    print('{} is the max life expectancy for {} on {}'.format(df['{}'.format(country)].values[0],country,df['year'].values[0]))
+def lowest_life_expectancy_of_country(country):
+    connection=connect()
+    df=pd.read_sql('select year,{} from life where {}=(select min({}) from life)'.format(country,country,country),connection)
+    print('{} is the min life expectancy for {} on {}'.format(df['{}'.format(country)].values[0],country,df['year'].values[0]))
+def predict(country,year):
+    connection=connect()
+    df=pd.read_sql('select year,{} from life where year between 1971 and 2016'.format(country),connection)
     x=df['year'].values.reshape(-1,1)
     y=df.iloc[:,1].values.reshape(-1,1)
     reg=LinearRegression()
     reg.fit(x,y)
     k=float(reg.predict(year))
-    print('{} is the life expectancy for {} on {}'.format(k,country_name,str(year)))
+    print('{} is the life expectancy for {} on {}'.format(k,country,str(year)))
