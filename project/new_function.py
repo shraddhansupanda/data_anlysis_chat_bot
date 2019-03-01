@@ -14,7 +14,7 @@ def country_name():
     df=df.iloc[:,1:]
     df=list(df)
     return df
-def box_plot(country,year=1800,year1=2016):
+def box_plot(country,year,year1):
     grid=plt.GridSpec(1,len(country))
     for x in range(len(country)):
         country1=country[int('{}'.format(x))]
@@ -28,7 +28,7 @@ def box_plot(country,year=1800,year1=2016):
     plt.tight_layout()
     time.sleep(0.3)
     plt.show()
-def scatter_plot(country,year=1800,year1=2016):
+def scatter_plot(country,year,year1):
     grid=plt.GridSpec(len(country),1)
     for x in range(len(country)):
         country1=country[int('{}'.format(x))]
@@ -44,7 +44,7 @@ def scatter_plot(country,year=1800,year1=2016):
     plt.tight_layout()
     time.sleep(0.3)
     plt.show()
-def histogram(country,year=1800,year1=2016,bins=20):
+def histogram(country,year,year1,bins):
     grid=plt.GridSpec(len(country),1)
     for x in range(len(country)):
         country1=country[int('{}'.format(x))]
@@ -57,7 +57,7 @@ def histogram(country,year=1800,year1=2016,bins=20):
     plt.tight_layout()
     time.sleep(0.3)
     plt.show()
-def graphical_EDA(country,year=1800,year1=2016):
+def graphical_EDA(country,year,year1):
     grid=plt.GridSpec(2,2)
     plt.subplot(grid[0,0])
     df=pd.read_sql('select {} from life where year between {} AND {}'.format(country,year,year1),connect())
@@ -84,35 +84,45 @@ def graphical_EDA(country,year=1800,year1=2016):
     plt.tight_layout()
     time.sleep(0.3)
     plt.show()
-def avg(country,year=1800,year1=2016):
-    df=pd.read_sql('select AVG({}) from life where year between {} AND {}'.format(country,year,year1),connect())
-    time.sleep(0.3)
-    if year==1800 and year1==2016:
-        print('{} is the Average of {}'.format(float(df.values),country))
-    else:
-        print('{} is the Average of {} from {} to {}'.format(float(df.values),country,year,year1))
-def variance(country,year=1800,year1=2016):
-    df=pd.read_sql('select VARIANCE({}) from life where year between {} AND {}'.format(country,year,year1),connect())
-    time.sleep(0.3)
-    if year==1800 and year1==2016:
-        print('{} is the variance of {}'.format(float(df.values),country))
-    else:
-        print('{} is the variance of {} from {} to {}'.format(float(df.values),country,year,year1))
-def standard_deviation(country,year=1800,year1=2016):
-    df=pd.read_sql('select STDDEV({}) from life where year between {} AND {}'.format(country,year,year1),connect())
-    time.sleep(0.3)
-    if year==1800 and year1==2016:
-        print('{} is the Standard deviation of {}'.format(float(df.values),country))
-    else:
-        print('{} is the Standard deviation of {} from {} to {}'.format(float(df.values),country,year,year1))
+def avg(country,year,year1):
+    for x in range(len(country)):
+        country1=country[int('{}'.format(x))]
+        df=pd.read_sql('select AVG({}) from life where year between {} AND {}'.format(country1,year,year1),connect())
+        time.sleep(0.3)
+        if year==1800 and year1==2016:
+            print('{} is the Average of {}'.format(float(df.values),country1))
+        else:
+            print('{} is the Average of {} from {} to {}'.format(float(df.values),country1,year,year1))
+def variance(country,year,year1):
+    for x in range(len(country)):
+        country1=country[int('{}'.format(x))]
+        df=pd.read_sql('select VARIANCE({}) from life where year between {} AND {}'.format(country1,year,year1),connect())
+        time.sleep(0.3)
+        if year==1800 and year1==2016:
+            print('{} is the variance of {}'.format(float(df.values),country1))
+        else:
+            print('{} is the variance of {} from {} to {}'.format(float(df.values),country1,year,year1))
+def standard_deviation(country,year,year1):
+    for x in range(len(country)):
+        country1=country[int('{}'.format(x))]
+        df=pd.read_sql('select STDDEV({}) from life where year between {} AND {}'.format(country1,year,year1),connect())
+        time.sleep(0.3)
+        if year==1800 and year1==2016:
+            print('{} is the Standard deviation of {}'.format(float(df.values),country1))
+        else:
+            print('{} is the Standard deviation of {} from {} to {}'.format(float(df.values),country1,year,year1))
 def statistical_EDA(country,year=1800,year1=2016):
-    avg(country,year,year1)
-    variance(country,year,year1)
-    standard_deviation(country,year,year1)
+    for x in range(len(country)):
+        country1=country[int('{}'.format(x))]
+        avg([country1],year,year1)
+        variance([country1],year,year1)
+        standard_deviation([country1],year,year1)
 def what_is(country,year):
-    df=pd.read_sql('select {} from life where year = {}'.format(country,year),connect())
-    time.sleep(0.3)
-    print('{} is the life_expectancy of {} on {}'.format(float(df.values),country,year))
+    for x in range(len(country)):
+        country1=country[int('{}'.format(x))]
+        df=pd.read_sql('select {} from life where year = {}'.format(country1,year),connect())
+        time.sleep(0.3)
+        print('{} is the life_expectancy of {} on {}'.format(float(df.values),country1,year))
 def highest_life_expectancy_of_country(country):
     df=pd.read_sql('select year,{} from life where {}=(select max({}) from life)'.format(country,country,country),connect())
     time.sleep(0.3)
@@ -152,11 +162,13 @@ def lowest_life_expectancy():
         time.sleep(0.5)
         print('{} has lowest life expectancy of {} on {}'.format(df3.index[i],df3[i],year))
 def predict(country,year):
-    df=pd.read_sql('select year,{} from life where year between 1971 and 2016'.format(country),connect())
-    x=df['year'].values.reshape(-1,1)
-    y=df.iloc[:,1].values.reshape(-1,1)
-    reg=LinearRegression()
-    reg.fit(x,y)
-    k=float(reg.predict(year))
-    time.sleep(0.3)
-    print('{} is the life expectancy for {} on {}'.format(k,country,str(year)))
+    for x in range(len(country)):
+        country1=country[int('{}'.format(x))]
+        df=pd.read_sql('select year,{} from life where year between 1971 and 2016'.format(country1),connect())
+        x=df['year'].values.reshape(-1,1)
+        y=df.iloc[:,1].values.reshape(-1,1)
+        reg=LinearRegression()
+        reg.fit(x,y)
+        k=float(reg.predict(year))
+        time.sleep(0.3)
+        print('{} is the life expectancy for {} on {}'.format(k,country1,str(year)))

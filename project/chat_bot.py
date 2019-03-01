@@ -24,6 +24,7 @@ while True:
                 return year,year1
             if len(years)==0:
                 return 1800,2016
+        #to find the bins for histogram in the string
         def bin():
             pattern=re.compile(r'\b\d{1,3}\b')
             bins=re.findall(pattern,x)
@@ -48,15 +49,15 @@ while True:
         if 'graphical' in y and 'eda' in y:
             graphical_EDA(common_member()[0],*year())
         if 'average' in y or 'avg' in y:
-            avg(common_member()[0],*year())
+            avg(common_member(),*year())
         if 'variance' in y or 'var' in y:
-            variance(common_member()[0],*year())
+            variance(common_member(),*year())
         if 'standard deviation' in y or 'std' in y:
-            standard_deviation(common_member()[0],*year())
+            standard_deviation(common_member(),*year())
         if ('statistical' in y and 'eda' in y) or ('statistical' and 'exploritory' and 'data' and 'analysis' in y):
-            statistical_EDA(common_member()[0],*year())
+            statistical_EDA(common_member(),*year())
         if 'what' in y and (('life' in y and'expectancy' in y) or 'le' in y) and 'predict' not in y and 'will' not in y and 'maximum' not in y and 'highest' not in y and 'lowest' not in y and 'minimum' not in y:
-            what_is(common_member()[0],year())
+            what_is(common_member(),year())
         if 'what' in y and ('highest' in y or 'maximum' in y or 'max' in y) and (('life' in y and 'expectancy' in y) or 'le' in y):
             highest_life_expectancy_of_country(common_member()[0])
         if 'what' in y and ('lowest' in y or 'minimum' in y or 'min' in y) and (('life' in y and 'expectancy' in y) or 'le' in y):
@@ -70,6 +71,6 @@ while True:
         if 'which' in y and 'country' in y and ('lowest' in y or 'minimum' in y or 'min' in y) and (('life' in y and 'expectancy' in y) or 'le' in y) and 'on' not in y:
             lowest_life_expectancy()
         if 'predict' in y or 'will' in y:
-            predict(common_member()[0],year())
+            predict(common_member(),year())
     except:
         print('Please Enter correctly with proper meaning')
