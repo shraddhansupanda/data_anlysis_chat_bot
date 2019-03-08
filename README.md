@@ -5,6 +5,7 @@
                                                       4-port number
                                                       5-schema on which you want to store the data
   (with this five parameter run this python file)
+      
       EX-python import_data.py root(username) 12345(password) localhost(ip) 3306(port number) data(schema name) 
 
 
@@ -16,6 +17,7 @@
                                                      4-port number
                                                      5-schema on which your data set is present
    (with this five parameter run this python file)
+      
       EX-python chat_bot.py root(username) 12345(password) localhost(ip) 3306(port number) data(schema name)
       
       ->Then ask any type of question related to the life_expectancy data.
