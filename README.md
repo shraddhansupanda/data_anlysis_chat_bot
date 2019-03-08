@@ -20,7 +20,7 @@
       
       EX-python chat_bot.py root(username) 12345(password) localhost(ip) 3306(port number) data(schema name)
       
-      ->Then ask any type of question related to the life_expectancy data.
+ ->Then ask any type of question related to the life_expectancy data.
       (This data consist of life expectancy of every country form 1800 to 2016)
 
 Requirment:
