@@ -29,7 +29,7 @@ requirment:
   
     mysql workbench
   
-   python mysql connector
+    python mysql connector
 
 requirment:(python module)
   
