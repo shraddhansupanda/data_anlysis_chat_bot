@@ -21,7 +21,7 @@
       ->Then ask any type of question related to the life_expectancy data.
       (This data consist of life expectancy of every country form 1800 to 2016)
 
-requirment:
+Requirment:
 
     python
 
@@ -31,7 +31,7 @@ requirment:
   
     python mysql connector
 
-requirment:(python module)
+Requirment:(python module)
   
     1-pandas
   
