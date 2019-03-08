@@ -5,8 +5,14 @@ import pandas as pd
 import numpy as np
 import time
 from sklearn.linear_model import LinearRegression
+import sys
+username=sys.argv[1]
+password=sys.argv[2]
+ip=sys.argv[3]
+port=sys.argv[4]
+schema=sys.argv[5]
 def connect():
-    engine=sqlalchemy.create_engine('mysql+mysqlconnector://root:taj@0810@localhost:3306/taj')
+    engine=sqlalchemy.create_engine('mysql+mysqlconnector://{}:{}@{}:{}/{}'.format(username,password,ip,port,schema))
     connection=engine.connect()
     return connection
 def country_name():
