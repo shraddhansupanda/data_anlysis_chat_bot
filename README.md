@@ -23,25 +23,25 @@
 
 requirment:
 
-  python
+    python
 
-  mysql
+    mysql
   
-  mysql workbench
+    mysql workbench
   
-  python mysql connector
+   python mysql connector
 
 requirment:(python module)
   
-  1-pandas
+    1-pandas
   
-  2-numpy
+    2-numpy
   
-  3-requests
+    3-requests
   
-  4-matplotlib
+    4-matplotlib
   
-  5-sqlalchemy
+    5-sqlalchemy
   
-  6-sklearn
+    6-sklearn
   
