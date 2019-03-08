@@ -21,3 +21,16 @@
       ->Then ask any type of question related to the life_expectancy data.
       (This data consist of life expectancy of every country form 1800 to 2016)
 
+requirment:
+  python
+  mysql
+  mysql workbench
+  python mysql connector
+requirment:(python module)
+  1-pandas
+  2-numpy
+  3-requests
+  4-matplotlib
+  5-sqlalchemy
+  6-sklearn
+  
