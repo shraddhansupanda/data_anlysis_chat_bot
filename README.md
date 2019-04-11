@@ -24,8 +24,11 @@
       (This data consist of life expectancy of every country form 1800 to 2016)
       
  ->QUESTION YOU CAN ASK
+ 
       ->predict what will be the life expectancy of country_name(ex-india, china) on a pirticular year
+      
       ->name all the country
+      
       ->do a scatter of nepal and china from 1870 to 1956
       ->do a GRAPHICAL exploritory data analysis on Brazil from 1800 to 2016
       ->what is the life expectancy of bhutan and russia on 1890
