@@ -22,6 +22,10 @@
       
  ->Then ask any type of question related to the life_expectancy data.
       (This data consist of life expectancy of every country form 1800 to 2016)
+      QUESTION YOU CAN ASK
+      ->predict what will be the life expectancy of country_name(ex-india, china) on a pirticular year
+      ->name all the country
+      ->
 
 Requirment:
 
