@@ -10,8 +10,8 @@
 
 
 
-->Then run chat_bot.py to run the chat_bot.py. Bot will automaticaly query the database according to the question,so you have 
-  also pass the parameter to connect to the database 1-username
+->Then run chat_bot.py to run the chat_bot.py.
+ (while runing the import_data.py pass the paramiter 1-username
                                                      2-password
                                                      3-ip(localhost if you are on your own computer)
                                                      4-port number
