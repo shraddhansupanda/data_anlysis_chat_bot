@@ -10,7 +10,7 @@
 
 
 
-->Then run chat_bot.py for mac user and chat_bot(windows).py for window user to run the application.
+->Then run chat_bot.py(chat_bot_windows.py for window user) to run the application.
  (while runing the import_data.py pass the paramiter 1-username
                                                      2-password
                                                      3-ip(localhost if you are on your own computer)
